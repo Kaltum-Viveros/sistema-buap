@@ -13,13 +13,21 @@ import { RegistroUsuariosScreenComponent } from './screens/registro-usuarios-scr
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
-
+import { NavbarComponent } from './partials/navbar/navbar.component';
+import {MatRadioModule} from '@angular/material/radio';
+import { RegistroAdminComponent } from './partials/registro-admin/registro-admin.component';
+import { RegistroAlumnosComponent } from './partials/registro-alumnos/registro-alumnos.component';
+import { RegistroMaestrosComponent } from './partials/registro-maestros/registro-maestros.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginScreenComponent,
-    RegistroUsuariosScreenComponent
+    RegistroUsuariosScreenComponent,
+    NavbarComponent,
+    RegistroAdminComponent,
+    RegistroAlumnosComponent,
+    RegistroMaestrosComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +36,8 @@ import {MatDividerModule} from '@angular/material/divider';
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
-    FormsModule
+    FormsModule,
+    MatRadioModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
