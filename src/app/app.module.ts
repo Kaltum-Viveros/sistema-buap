@@ -18,6 +18,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 import { NavbarComponent } from './partials/navbar/navbar.component';
 import {MatRadioModule} from '@angular/material/radio';
@@ -45,7 +48,10 @@ import { RegistroMaestrosComponent } from './partials/registro-maestros/registro
     FormsModule,
     MatRadioModule,
     MatInputModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatDatepickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
