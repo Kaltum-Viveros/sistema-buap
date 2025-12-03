@@ -52,6 +52,7 @@ export class RegistroMaestrosComponent implements OnInit {
   }
 
   public actualizar(){
+    
   }
 
   public checkboxChange(event:any){
@@ -70,18 +71,46 @@ export class RegistroMaestrosComponent implements OnInit {
   }
 
   public revisarSeleccion(nombre: string){
+    if(this.maestro.materias_json){
+      var busqueda = this.maestro.materias_json.find((element)=>element==nombre);
+      if(busqueda != undefined){
+        return true;
+      }else{
         return false;
+      }
+    }else{
+      return false;
+    }
   }
 
   public showPassword(){
+    if(this.inputType_1 == 'password'){
+      this.inputType_1 = 'text';
+      this.hide_1 = true;
+    }
+    else{
+      this.inputType_1 = 'password';
+      this.hide_1 = false;
+    }
   }
 
   public showPwdConfirmar(){
-
+    if(this.inputType_2 == 'password'){
+      this.inputType_2 = 'text';
+      this.hide_2 = true;
+    }
+    else{
+      this.inputType_2 = 'password';
+      this.hide_2 = false;
+    }
   }
 
   //Función para detectar el cambio de fecha
   public changeFecha(event :any){
-    
+    console.log(event);
+    console.log(event.value.toISOString());
+
+    this.maestro.fecha_nacimiento = event.value.toISOString().split("T")[0];
+    console.log("Fecha: ", this.maestro.fecha_nacimiento);
   }
 }

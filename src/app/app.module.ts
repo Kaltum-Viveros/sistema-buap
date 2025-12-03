@@ -9,21 +9,28 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { LoginScreenComponent } from './screens/login-screen/login-screen.component';
 import { RegistroUsuariosScreenComponent } from './screens/registro-usuarios-screen/registro-usuarios-screen.component';
 
-//ngular material
+//angular material
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
+import {NavbarComponent} from './partials/navbar/navbar.component';
+import {MatRadioModule} from '@angular/material/radio';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog';
+//Para usar el mask
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+//Cambia el idioma a español
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
-import { NavbarComponent } from './partials/navbar/navbar.component';
-import {MatRadioModule} from '@angular/material/radio';
 import { RegistroAdminComponent } from './partials/registro-admin/registro-admin.component';
 import { RegistroAlumnosComponent } from './partials/registro-alumnos/registro-alumnos.component';
 import { RegistroMaestrosComponent } from './partials/registro-maestros/registro-maestros.component';
@@ -51,9 +58,17 @@ import { RegistroMaestrosComponent } from './partials/registro-maestros/registro
     HttpClientModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    NgxMaskDirective,
+    MatNativeDateModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatDialogModule
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    provideNgxMask()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
