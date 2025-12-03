@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ValidatorService } from './tools/validator.service';
-import { ErrorsService } from './tools/errors.service';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ErrorsService } from './tools/errors.service';
 import { FacadeService } from './facade.service';
 
 const httpOptions = {
@@ -13,7 +13,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class AdministradoresService {
+export class AlumnosService {
 
   constructor(
     private http: HttpClient,
@@ -22,30 +22,31 @@ export class AdministradoresService {
     private facadeService: FacadeService
   ) { }
 
-  public esquemaAdmin(){
+  public esquemaAlumno(){
     return {
       'rol':'',
-      'clave_admin': '',
+      'matricula': '',
       'first_name': '',
       'last_name': '',
       'email': '',
       'password': '',
       'confirmar_password': '',
-      'telefono': '',
+      'fecha_nacimiento': '',
+      'curp': '',
       'rfc': '',
       'edad': '',
-      'ocupacion': ''
+      'telefono': '',
+      'ocupacion': '',
     }
   }
 
   //Validación para el formulario
-  public validarAdmin(data: any, editar: boolean){
-    console.log("Validando admin... ", data);
-
+  public validarAlumno(data: any, editar: boolean){
+    console.log("Validando alumno... ", data);
     let error: any = [];
 
-    if(!this.validatorService.required(data["clave_admin"])){
-      error["clave_admin"] = this.errorService.required;
+    if(!this.validatorService.required(data["matricula"])){
+      error["matricula"] = this.errorService.required;
     }
 
     if(!this.validatorService.required(data["first_name"])){
@@ -72,6 +73,20 @@ export class AdministradoresService {
       if(!this.validatorService.required(data["confirmar_password"])){
         error["confirmar_password"] = this.errorService.required;
       }
+    }
+
+    if(!this.validatorService.required(data["fecha_nacimiento"])){
+      error["fecha_nacimiento"] = this.errorService.required;
+    }
+
+    if(!this.validatorService.required(data["curp"])){
+      error["curp"] = this.errorService.required;
+    }else if(!this.validatorService.min(data["curp"], 18)){
+      error["curp"] = this.errorService.min(18);
+      alert("La longitud de caracteres de la CURP es menor, deben ser 18");
+    }else if(!this.validatorService.max(data["curp"], 18)){
+      error["curp"] = this.errorService.max(18);
+      alert("La longitud de caracteres de la CURP es mayor, deben ser 18");
     }
 
     if(!this.validatorService.required(data["rfc"])){
@@ -105,40 +120,34 @@ export class AdministradoresService {
   }
 
   //Aquí van los servicios HTTP
-  //Servicio para registrar un nuevo usuario
-  public registrarAdmin (data: any): Observable <any>{
-    return this.http.post<any>(`${environment.url_api}/admin/`,data, httpOptions);
+  //Servicio para registrar un nuevo alumno
+  public registrarAlumno (data: any): Observable <any>{
+    return this.http.post<any>(`${environment.url_api}/alumnos/`,data, httpOptions);
   }
 
-  public obtenerListaAdmins (): Observable <any>{
+  public obtenerListaAlumnos (): Observable <any>{
     var token = this.facadeService.getSessionToken();
     var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
-    return this.http.get<any>(`${environment.url_api}/lista-admins/`, {headers:headers});
+    return this.http.get<any>(`${environment.url_api}/lista-alumnos/`, {headers:headers});
   }
 
-  //Obtener un solo usuario dependiendo su ID
-  public getAdminByID(idUser: Number){
-    return this.http.get<any>(`${environment.url_api}/admin/?id=${idUser}`,httpOptions);
+  //Obtener un solo alumno dependiendo su ID
+  public getAlumnoByID(idUser: Number){
+    return this.http.get<any>(`${environment.url_api}/alumnos/?id=${idUser}`,httpOptions);
   }
 
   //Servicio para actualizar un usuario
-  public editarAdmin (data: any): Observable <any>{
+  public editarAlumno (data: any): Observable <any>{
     var token = this.facadeService.getSessionToken();
+    console.log("Token en editar alumno: ", token);
     var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
-    return this.http.put<any>(`${environment.url_api}/admins-edit/`, data, {headers:headers});
+    return this.http.put<any>(`${environment.url_api}/alumnos-edit/`, data, {headers:headers});
   }
 
-  //Eliminar Admin
-  public eliminarAdmin(idUser: number): Observable <any>{
+  //Eliminar Alumno
+  public eliminarAlumno(idUser: number): Observable <any>{
     var token = this.facadeService.getSessionToken();
     var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
-    return this.http.delete<any>(`${environment.url_api}/admins-edit/?id=${idUser}`,{headers:headers});
-  }
-
-  //Obtener el total de cada uno de los usuarios del sistema
-  public getTotalUsuarios(){
-    var token = this.facadeService.getSessionToken();
-    var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
-    return this.http.get<any>(`${environment.url_api}/admins-edit/`, {headers:headers});
+    return this.http.delete<any>(`${environment.url_api}/alumnos-edit/?id=${idUser}`,{headers:headers});
   }
 }

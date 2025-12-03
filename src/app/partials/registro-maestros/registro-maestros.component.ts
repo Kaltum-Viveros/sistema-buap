@@ -1,11 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { MaestrosService } from 'src/app/services/maestros.service';
+import { FacadeService } from 'src/app/services/facade.service';
+declare var $:any;
 
 @Component({
   selector: 'app-registro-maestros',
   templateUrl: './registro-maestros.component.html',
   styleUrls: ['./registro-maestros.component.scss']
 })
-export class RegistroMaestrosComponent implements OnInit {
+export class RegistroMaestrosComponent implements OnInit{
   @Input() rol: string = "";
   @Input() datos_user: any = {};
 
@@ -18,6 +23,8 @@ export class RegistroMaestrosComponent implements OnInit {
   public maestro:any = {};
   public errors:any = {};
   public editar:boolean = false;
+  public token: string = "";
+  public idUser: Number = 0;
 
   //Para el select
   public areas: any[] = [
@@ -41,18 +48,88 @@ export class RegistroMaestrosComponent implements OnInit {
     {value: '10', nombre: 'Administración de S.O.'},
   ];
 
-  constructor() { }
+  constructor(
+    private maestrosService: MaestrosService,
+    private router: Router,
+    private location : Location,
+    public activatedRoute: ActivatedRoute,
+    private facadeService: FacadeService
+  ){}
+
   ngOnInit(): void {
+    //El primer if valida si existe un parámetro en la URL
+    if(this.activatedRoute.snapshot.params['id'] != undefined){
+      this.editar = true;
+      //Asignamos a nuestra variable global el valor del ID que viene por la URL
+      this.idUser = this.activatedRoute.snapshot.params['id'];
+      console.log("ID User: ", this.idUser);
+      //Al iniciar la vista asignamos los datos del user
+      this.maestro = this.datos_user;
+    }else{
+      this.maestro = this.maestrosService.esquemaMaestro();
+      this.maestro.rol = this.rol;
+      this.token = this.facadeService.getSessionToken();
+    }
+    //Imprimir datos en consola
+    console.log("Maestro: ", this.maestro);
   }
 
   public regresar(){
+    this.location.back();
   }
 
   public registrar(){
+    //Validar
+    this.errors = [];
+
+    this.errors = this.maestrosService.validarMaestro(this.maestro, this.editar);
+    if(!$.isEmptyObject(this.errors)){
+      return false;
+    }
+    //Validar la contraseña
+    if(this.maestro.password == this.maestro.confirmar_password){
+      //Aquí si todo es correcto vamos a registrar - aquí se manda a llamar al servicio
+      this.maestrosService.registrarMaestro(this.maestro).subscribe(
+        (response)=>{
+          alert("Usuario registrado correctamente");
+          console.log("Usuario registrado: ", response);
+          if(this.token != ""){
+            this.router.navigate(["home"]);
+            }else{
+              this.router.navigate(["/"]);
+            }
+        }, (error)=>{
+          alert("No se pudo registrar usuario");
+        }
+      )
+    }else{
+      alert("Las contraseñas no coinciden");
+      this.maestro.password="";
+      this.maestro.confirmar_password="";
+    }
   }
 
+  // Editar
   public actualizar(){
-    
+    //Validación
+    this.errors = [];
+
+    this.errors = this.maestrosService.validarMaestro(this.maestro, this.editar);
+    if(!$.isEmptyObject(this.errors)){
+      return false;
+    }
+    console.log("Pasó la validación");
+
+    this.maestrosService.editarMaestro(this.maestro).subscribe(
+      (response)=>{
+        alert("Maestro editado correctamente");
+        console.log("Maestro editado: ", response);
+        //Si se editó, entonces mandar al home
+        this.router.navigate(["home"]);
+      }, (error)=>{
+        alert("No se pudo editar el maestro");
+      }
+    );
   }
 
   public checkboxChange(event:any){
@@ -83,7 +160,9 @@ export class RegistroMaestrosComponent implements OnInit {
     }
   }
 
-  public showPassword(){
+  //Funciones para password
+  showPassword()
+  {
     if(this.inputType_1 == 'password'){
       this.inputType_1 = 'text';
       this.hide_1 = true;
@@ -94,7 +173,8 @@ export class RegistroMaestrosComponent implements OnInit {
     }
   }
 
-  public showPwdConfirmar(){
+  showPwdConfirmar()
+  {
     if(this.inputType_2 == 'password'){
       this.inputType_2 = 'text';
       this.hide_2 = true;

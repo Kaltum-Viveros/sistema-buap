@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdministradoresService } from 'src/app/services/administradores.service';
+import { FacadeService } from 'src/app/services/facade.service';
+import { Location } from '@angular/common';
 declare var $:any;
 
 @Component({
@@ -7,7 +10,7 @@ declare var $:any;
   templateUrl: './registro-admin.component.html',
   styleUrls: ['./registro-admin.component.scss']
 })
-export class RegistroAdminComponent implements OnInit {
+export class RegistroAdminComponent implements OnInit{
   @Input() rol: string = "";
   @Input() datos_user: any = {};
 
@@ -18,14 +21,36 @@ export class RegistroAdminComponent implements OnInit {
   public inputType_2: string = 'password';
 
   public admin:any= {};
+  public token: string = "";
   public errors:any={};
   public editar:boolean = false;
-  
+  public idUser: Number = 0;
+
   constructor(
     private administradoresService: AdministradoresService,
-  ) { }
+    private router: Router,
+    private location : Location,
+    public activatedRoute: ActivatedRoute,
+    private facadeService: FacadeService
+  ){}
 
   ngOnInit(): void {
+    //El primer if valida si existe un parámetro en la URL
+    if(this.activatedRoute.snapshot.params['id'] != undefined){
+      this.editar = true;
+      //Asignamos a nuestra variable global el valor del ID que viene por la URL
+      this.idUser = this.activatedRoute.snapshot.params['id'];
+      console.log("ID User: ", this.idUser);
+      //Al iniciar la vista asignamos los datos del user
+      this.admin = this.datos_user;
+    }else{
+      this.admin = this.administradoresService.esquemaAdmin();
+      this.admin.rol = this.rol;
+      this.token = this.facadeService.getSessionToken();
+    }
+    //Imprimir datos en consola
+    console.log("Admin: ", this.admin);
+
   }
 
   //Funciones para password
@@ -54,8 +79,8 @@ export class RegistroAdminComponent implements OnInit {
   }
 
   public regresar(){
-    
-  } 
+    this.location.back();
+  }
 
   public registrar(){
     //Validar
@@ -69,15 +94,50 @@ export class RegistroAdminComponent implements OnInit {
     //Validar la contraseña
     if(this.admin.password == this.admin.confirmar_password){
       //Aquí se va a ejecutar la lógica de programación para registrar un usuario
+      this.administradoresService.registrarAdmin(this.admin).subscribe(
+        (response)=>{
+          //Aquí va la ejecución del servicio si todo es correcto
+          alert("Usuario registrado correctamente");
+          console.log("Usuario registrado: ", response);
+          if(this.token != ""){
+            this.router.navigate(["home"]);
+          }else{
+            this.router.navigate(["/"]);
+          }
+        }, (error)=>{
+          //Aquí se ejecuta el error
+          alert("No se pudo registrar usuario");
+        }
+      );
+
+
     }else{
       alert("Las contraseñas no coinciden");
       this.admin.password="";
       this.admin.confirmar_password="";
     }
-
   }
 
   public actualizar(){
+    //Validación
+    this.errors = [];
+
+    this.errors = this.administradoresService.validarAdmin(this.admin, this.editar);
+    if(!$.isEmptyObject(this.errors)){
+      return false;
+    }
+    console.log("Pasó la validación");
+
+    this.administradoresService.editarAdmin(this.admin).subscribe(
+      (response)=>{
+        alert("Administrador editado correctamente");
+        console.log("Admin editado: ", response);
+        //Si se editó, entonces mandar al home
+        this.router.navigate(["home"]);
+      }, (error)=>{
+        alert("No se pudo editar el administrador");
+      }
+    );
   }
 
   public soloLetras(event: KeyboardEvent) {
@@ -91,5 +151,4 @@ export class RegistroAdminComponent implements OnInit {
       event.preventDefault();
     }
   }
-
 }
