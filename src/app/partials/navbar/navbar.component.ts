@@ -34,8 +34,12 @@ export class NavbarComponent implements OnInit{
 
   }
 
-  public goRegistro(){
-    this.router.navigate(["registro-usuarios"]);
+  public goRegistro(role?: string){
+    if (role) {
+      this.router.navigate(["registro-usuarios"], { queryParams: { role: role } });
+    } else {
+      this.router.navigate(["registro-usuarios"]);
+    }
   }
   //Cerrar sesión
   public logout(){

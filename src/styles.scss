@@ -38,14 +38,68 @@
     font-display: swap;
 }
 
+
+:root {
+    --primary-color: #D32F2F; /* Red */
+    --secondary-color: #212121; /* Dark Gray/Black */
+    --background-color: #FFFFFF; /* White */
+    --text-color: #212121;
+    --light-gray: #F5F5F5;
+    --border-color: #E0E0E0;
+}
+
 html, body { height: 100%; }
-body { margin: 0; font-family: Nexa; }
+body { 
+    margin: 0; 
+    font-family: Nexa; 
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
 
 .invalid-feedback {
     display: block!important;
     width: 100%;
     font-size: 0.75rem;
-    color: #ff5b5b;
+    color: var(--primary-color);
     font-family: Nexa;
     text-align: left;
 }
+
+/* Global Button Styles */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    &:hover {
+        background-color: #B71C1C;
+        border-color: #B71C1C;
+    }
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: white;
+    &:hover {
+        background-color: #000000;
+        border-color: #000000;
+    }
+}
+
+/* Global Table Styles */
+.table {
+    thead {
+        background-color: var(--secondary-color);
+        color: white;
+        th {
+            border-bottom: 2px solid var(--primary-color);
+        }
+    }
+}
+
+/* Angular Material Overrides */
+.mat-mdc-radio-button.mat-accent {
+    --mdc-radio-selected-icon-color: var(--primary-color);
+    --mdc-radio-ripple-color: var(--primary-color);
+}
+

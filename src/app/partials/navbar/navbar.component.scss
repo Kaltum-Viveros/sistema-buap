@@ -1,82 +1,60 @@
-.wrapper{
+.wrapper {
     width: 100vw;
-    //height: 100vh;
-}
-.bg-light{
-    background-color: #003B5C!important;
 }
 
-.navbar{
-    padding: 0 0 0 0!important;
-}
+.navbar {
+    background-color: var(--secondary-color) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 0;
 
-.navbar-brand{
-    padding-left: 20px;
-    font-size: 28px;
-    font-family: Nexa;
-    text-align: center;
-    opacity: 1;
-    color: #FFFFFF;
-    margin: 0 0 0 0!important;
-}
-.nav-link{
-    font-size: 20px;
-    font-family: Nexa;
-    text-align: center;
-    opacity: 1;
-    font-weight: bold;
-    color: #FFFFFF;
-    margin: 0 0 0 0!important;
-}
+    .navbar-brand {
+        color: white !important;
+        font-family: 'Nexa-Bold';
+        font-size: 1.5rem;
+        padding-left: 20px;
+    }
 
-li a {
-    display: block;
-    text-decoration: none;
-    cursor: pointer;
-    text-transform: capitalize;
-}
+    .nav-link {
+        color: rgba(255,255,255,0.8) !important;
+        font-family: 'Nexa';
+        font-size: 1.1rem;
+        transition: color 0.3s ease;
+        padding: 1.2rem 1rem;
+        cursor: pointer;
 
-/* Change the link color on hover */
-li a:hover {
-    background-color: #0092B8;
-    color: #FFFFFF;
-    margin: 0;
-}
+        &:hover, &.active {
+            color: white !important;
+            background-color: var(--primary-color);
+            font-weight: bold;
+        }
+    }
 
-.navbar-expand-lg .navbar-nav .nav-link {
-    padding-top: 1.2rem;
-    padding-bottom: 1.2rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
-.navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
-    font-size: 20px;
-    font-family: Nexa;
-    text-align: center;
-    opacity: 1;
-    font-weight: bold;
-    color: #FFFFFF;
-}
-.active {
-    background-color: #03aed8;
-    margin: 0 0 0 0!important;
-}
+    .navbar-toggler {
+        background-color: white;
+        margin-right: 1rem;
+    }
 
-.bi-person-circle{
-    font-size: 20pt;
-    color: #FFFFFF;
-}
-.dropdown-toggle{
-    font-size: 15pt;
-    color: #FFFFFF;
-}
-.dropdown-menu[data-bs-popper] {
-    right: 0!important;
-    left: auto;
-}
-.navbar-toggler-icon{
-    color: #FFFFFF;
-}
-.navbar-toggler-icon {
-    vertical-align: 0;
+    .dropdown-menu {
+        background-color: var(--secondary-color);
+        border: 1px solid var(--primary-color);
+        right: 0;
+        left: auto;
+        
+        .dropdown-item {
+            color: white;
+            cursor: pointer;
+            &:hover {
+                background-color: var(--primary-color);
+                color: white;
+            }
+        }
+    }
+
+    .btn {
+        color: white;
+        font-size: 1.5rem;
+        &:hover {
+            color: var(--primary-color);
+        }
+    }
 }

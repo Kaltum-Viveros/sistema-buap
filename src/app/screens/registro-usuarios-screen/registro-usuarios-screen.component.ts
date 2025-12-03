@@ -40,6 +40,8 @@ export class RegistroUsuariosScreenComponent implements OnInit{
     private alumnosService: AlumnosService
   ){}
 
+  public isRoleFixed: boolean = false;
+
   ngOnInit(): void {
     //Obtener de la URL el rol para saber cual editar
     if(this.activatedRoute.snapshot.params['rol'] != undefined){
@@ -55,6 +57,17 @@ export class RegistroUsuariosScreenComponent implements OnInit{
       //Al iniciar la vista obtiene el usuario por su ID
       this.obtenerUserByID();
     }
+
+    // Check for query params to pre-select and lock role
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['role']) {
+        const role = params['role'];
+        this.user.tipo_usuario = role;
+        this.isRoleFixed = true;
+        // Trigger the change logic manually
+        this.radioChange({ value: role } as MatRadioChange);
+      }
+    });
 
   }
 
