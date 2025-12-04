@@ -1,27 +1,59 @@
-# SistemaBuapWebapp
+# Sistema BUAP Web App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.11.
+## Descripción
+**Sistema BUAP Web App** es una aplicación web moderna y responsiva diseñada para ofrecer una experiencia de usuario intuitiva y eficiente. Desarrollada con **Angular 16**, esta interfaz permite a los usuarios interactuar fluidamente con el ecosistema del Sistema BUAP, visualizando datos y gestionando recursos de manera sencilla.
 
-## Development server
+## Tecnologías Utilizadas
+El frontend está construido con herramientas líderes en la industria:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+*   **Framework**: Angular 16.2.0
+*   **Estilos y UI**: Bootstrap 5 & Bootstrap Icons
+*   **Visualización de Datos**: Chart.js & ng2-charts
+*   **Manejo de Asincronía**: RxJS
+*   **Cliente HTTP**: Angular HttpClient
 
-## Code scaffolding
+## Requisitos Previos
+Asegúrate de tener instalado lo siguiente:
+*   Node.js (LTS recomendado)
+*   Angular CLI (`npm install -g @angular/cli`)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Instalación y Configuración
 
-## Build
+Pasos para levantar el proyecto en tu máquina local:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1.  **Clonar el repositorio**
+    ```bash
+    git clone <url-del-repositorio>
+    cd sistema-buap-webapp
+    ```
 
-## Running unit tests
+2.  **Instalar dependencias**
+    Descarga todas las librerías necesarias listadas en `package.json`:
+    ```bash
+    npm install
+    ```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Servidor de Desarrollo
 
-## Running end-to-end tests
+Para ejecutar la aplicación en modo de desarrollo:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+ng serve
+```
 
-## Further help
+Navega a `http://localhost:4200/`. La aplicación se recargará automáticamente si cambias algún archivo fuente.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Construcción (Build)
+
+Para compilar el proyecto para producción:
+
+```bash
+ng build
+```
+
+Los artefactos de construcción se almacenarán en el directorio `dist/`.
+
+## Estructura del Proyecto
+*   `src/app`: Componentes, servicios y módulos de la aplicación.
+*   `src/assets`: Imágenes, fuentes y archivos estáticos.
+*   `angular.json`: Configuración del CLI de Angular.
