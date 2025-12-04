@@ -76,6 +76,9 @@ label {
   border: 1px solid #d1d1d1;
   transition: all 0.2s ease;
   font-size: 0.95rem;
+  position: relative;
+  z-index: 1;
+  padding-right: 40px !important;
 }
 
 .form-control:focus {
@@ -92,11 +95,15 @@ label {
 .input-group-text {
   position: absolute;
   right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
-  color: #444;
-  font-size: 1.1rem;
-  background: none;
-  border: none;
+
+  background: transparent !important;
+  border: none !important;
+
+  z-index: 5;
+  pointer-events: auto;
 }
 
 .buttons {
@@ -139,9 +146,7 @@ label {
   color: white;
 }
 
-/* =============================
-           RESPONSIVE
-============================= */
+
 @media (max-width: 480px) {
   .login-card {
     padding: 2rem 1.7rem;
